@@ -1,20 +1,16 @@
 class Solution {
-    bool check(int start,int n,vector<vector<int>> &graph,vector<int> &color){
-        color[start]=0;
-        queue<int> q;
-        q.push(start);
-        while(!q.empty()){
-            int node=q.front();
-            q.pop();
-            for(auto adjacent:graph[node]){
+    bool check(int node,int n,vector<vector<int>> &graph,vector<int> &color){
+        
+       for(auto adjacent:graph[node]){
                 if(color[adjacent]==-1){
                     color[adjacent]=!color[node];
-                    q.push(adjacent);
+                    if(!check(adjacent,n,graph,color)){
+                        return false;
+                    }
                 }else if(color[adjacent]==color[node]){
                     return false;
                 }
             }
-        }
         return true;
     }
 public:
@@ -24,6 +20,7 @@ public:
         for(int i=0;i<n;i++){
             if(color[i]==-1)//not colored yet
             {
+                color[i]=0;
                 if(check(i,n,graph,color)==false){
                     return false;
                 }
