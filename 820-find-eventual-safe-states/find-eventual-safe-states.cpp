@@ -1,43 +1,36 @@
 class Solution {
-private:
-    bool dfs(int node,vector<vector<int>> &graph,vector<int> &vis,vector<int> &pathVis,vector<int> &check){
-        vis[node]=1;
-        pathVis[node]=1;
-        check[node]=0;
-        //check is 1 means safe
-        for(auto it:graph[node]){
-            if(!vis[it]){
-                if(dfs(it,graph,vis,pathVis,check)){
-                    return true;
-                }
-            }else if(pathVis[it]){
-                    return true;
-                }
-        }
-        check[node]=1;
-        //because we traversed completely and we didn't find any cycle for the path starting 
-        //with this node so it is safe 
-
-        pathVis[node]=0;
-        return false;
-    }
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int n=graph.size();
-        vector<int> vis(n,0);
-        vector<int> pathVis(n,0);
-        vector<int> check(n,0);
+        vector<int> reverseAdj[graph.size()];
+        vector<int> indegree(graph.size());
+        for(int i=0;i<graph.size();i++){
+            for(int j=0;j<graph[i].size();j++){
+                reverseAdj[graph[i][j]].push_back(i);
+                indegree[i]++;
+            }
+        }
         vector<int> safeNodes;
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                dfs(i,graph,vis,pathVis,check);
+        queue<int> q;
+        for(int i=0;i<graph.size();i++){
+            if(indegree[i]==0){
+                q.push(i);
             }
         }
-        for(int i=0;i<n;i++){
-            if(check[i]){
-                safeNodes.push_back(i);
+        //till now we have already pushed the terminal nodes in the queue
+        //we know that a terminal node is always safe node 
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            safeNodes.push_back(node);
+            for(auto it:reverseAdj[node]){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.push(it);
+                }
             }
         }
+        sort(safeNodes.begin(),safeNodes.end());
         return safeNodes;
+
     }
 };
