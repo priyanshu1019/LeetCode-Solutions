@@ -6,7 +6,7 @@ public:
         vector<vector<int>> dist(n,vector<int>(m,1e9));
         priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>> pq;
         pq.push({0,{0,0}});
-        dist[0][0]=1;
+        dist[0][0]=0;
         int dx[]={-1,0,1,0};
         int dy[]={0,1,0,-1};
         while(!pq.empty()){
