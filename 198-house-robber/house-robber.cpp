@@ -13,16 +13,17 @@ private:
 public:
     int rob(vector<int>& nums) {
         int n=nums.size();
-        vector<int> dp(n+1,-1);
-        dp[0]=nums[0];
-        for(int i=1;i<n;i++){
+        // vector<int> dp(n+1,-1);
+        // dp[0]=nums[0];
+        int prev1=0;
+        int prev2=0;
+        for(int i=0;i<n;i++){
             int pick=nums[i];
-            if(i>1){
-                pick+=dp[i-2];
-            }
-            int non_pick=dp[i-1];
-            dp[i]=max(pick,non_pick);
+            pick+=prev2;
+            int non_pick=prev1;
+            prev2=prev1;
+            prev1=max(pick,non_pick);
         }
-        return dp[n-1];
+        return prev1;
     }
 };
