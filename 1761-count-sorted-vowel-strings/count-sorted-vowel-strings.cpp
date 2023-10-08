@@ -2,10 +2,7 @@ class Solution {
 private:
     int dp[51][6];
     int helper(int ind,int n,int vowelInd){
-        if(vowelInd==4){
-            return 1;
-        }
-        if(ind==n){
+        if(vowelInd==4||ind==n){
             return 1;
         }
         if(dp[ind][vowelInd]!=-1){
