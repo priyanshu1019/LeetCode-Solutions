@@ -2,9 +2,9 @@ class Solution {
 private:
     int dp[10001];
     int helper(int n){
-        if(n==0){
+        if(n<=3){
             //it means we dont need any no of perfect square
-            return 0;
+            return n;
         }
         if(dp[n]!=-1){
             return dp[n];
