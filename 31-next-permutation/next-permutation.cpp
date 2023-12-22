@@ -2,41 +2,39 @@ class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
         
-        int n          = nums.size();
-        int gola_index = -1;
+        int n   = nums.size();
+        int ind = -1;
         
-        for(int i = n-1 ; i> 0 ; i-- ){
+        //break point
+        for(int i = n-2 ; i >=0 ; i--){
             
-            if( nums[i] > nums[i-1]){
+            if( nums[i+1] > nums[i] ){
                 
-                gola_index = i - 1;
+                ind = i;
                 break;
                 
             }
             
         }
-        
-        //get just greater element to gola_index 
-        if( gola_index != -1 ){
+        cout<<ind;
+        if( ind == -1){
+            reverse(nums.begin()  , nums.end());
+            return;
+        }
+        cout<<"here";
+        //find just greater element and swap
+        for(int i = n-1; i > ind ; i-- ){
             
-            int swap_index = gola_index;
-            
-            for(int i = n-1 ; i >= gola_index+1 ; i--){
-                
-                if( nums[i] > nums[ gola_index ]){
-                    
-                    swap_index = i;
-                    break;
-                }
-                
+            if(nums[i] > nums[ind]){
+                swap(nums[i] , nums[ind]);
+                break;
             }
-            
-            swap( nums[gola_index] , nums[swap_index] );
             
         }
         
-        reverse( nums.begin() + gola_index +1 , nums.end() );
-        
-        
+        //reverse the elements after the break point
+        reverse(nums.begin()+ind +1, nums.end());
+        return;
+
     }
 };
