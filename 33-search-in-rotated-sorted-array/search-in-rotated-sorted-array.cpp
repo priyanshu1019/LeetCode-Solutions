@@ -1,37 +1,34 @@
 class Solution {
 public:
-    int search(vector<int>& arr, int k) {
-        int n=arr.size();
-        int ans=-1;
-        int s=0;
-        int e=n-1;
-        while(s<=e){
-            int mid=e+(s-e)/2;
-            if(arr[mid]==k){
+    int search(vector<int>& nums, int target) {
+        int ans = -1;
+        int n = nums.size();
+        int low = 0;
+        int high = n-1;
+
+        while(low <= high){
+            int mid = high - (high-low) /2;
+            int val = nums[mid];
+
+            if( val == target ){
                 return mid;
-            }
-            if(arr[s]<=arr[mid]){
-                if(arr[s]<=k && k<=arr[mid]){
-                    e=mid-1;
+                            }
+            else if( val >= nums[low] ){
+                if( val > target and nums[low] <= target){
+                    high = mid-1;
                 }else{
-                    s=mid+1;
+                    low = mid+1;
                 }
-                
+            }else{
+                if( val  <=  target and target <= nums[high]){
+                    low = mid+1;
+                }else{
+                    high = mid-1;
+                }
             }
-            else{
-                
-                if(arr[mid]<=k && k<=arr[e]){
-                    
-                    s=mid+1;
-                }
-                else{
 
-                    e=mid-1;
-                }
-
-                
-            }
         }
+
         return ans;
     }
 };
