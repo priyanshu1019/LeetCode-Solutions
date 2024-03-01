@@ -4,16 +4,16 @@ public class Solution {
         for (char ch : word.toCharArray()) {
             freq[ch - 'a']++;
         }
-        StringBuilder key = new StringBuilder();
+        String key ="";
         for (int i = 0; i < 26; i++) {
             if (freq[i] > 0) {
                 char ch = (char) ('a' + i);
                 for (int j = 0; j < freq[i]; j++) {
-                    key.append(ch);
+                    key +=ch;
                 }
             }
         }
-        return key.toString();
+        return key;
     }
 
     public List<List<String>> groupAnagrams(String[] strs) {
