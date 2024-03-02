@@ -19,9 +19,6 @@ public:
             {
                 reverse(it.second.begin() , it.second.end());
             }
-        }
-        for(auto &it:mp)
-        {
             for(auto &x:it.second)
             {
                 result.push_back(x);
