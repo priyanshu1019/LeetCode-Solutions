@@ -3,7 +3,6 @@ public:
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
         int n = mat.size();
         int m = mat[0].size();
-        vector<vector<int>> result(n,vector<int>(m));
         unordered_map<int,vector<int>> mp;
         for(int row = 0 ; row<n ; row++)
         {
@@ -25,20 +24,11 @@ public:
             for(int col = m-1 ; col>=0 ; col-- )
             {
                 int key = row-col;
-                result[row][col] = mp[key].back();
+                mat[row][col] = mp[key].back();
                 mp[key].pop_back();
             }
         }
-        for(auto it:mp)
-        {
-            cout<<it.first;
-            for(auto x:it.second)
-            {
-                cout<<x<<" ";
-            }
-            cout<<endl;
-        }
-        return result;
+        return mat;
 
     }
 };
