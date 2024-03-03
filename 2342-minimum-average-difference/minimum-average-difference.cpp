@@ -17,7 +17,7 @@ public:
             long long  rightSum = totalSum - leftSum;
             int avg2 = i<n-1 ? (rightSum / (n - i - 1)) : 0;
             int diff = abs(avg1 - avg2);
-            if( diff < minDiff || (diff == minDiff && i < ind))
+            if( diff < minDiff )
             {
                 minDiff = diff;
                 ind = i;
