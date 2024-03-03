@@ -10,7 +10,7 @@ public:
         q.push({i , j , k});//starting point
         bool visited[41][41][1601];//to check visited with state 
         memset(visited, false , sizeof(visited));
-        
+        visited[0][0][k] = true;
         int steps = 0;
         while( !q.empty())
         {
