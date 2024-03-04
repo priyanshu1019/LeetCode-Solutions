@@ -1,7 +1,7 @@
 class Solution {
 public:
     int findMinArrowShots(vector<vector<int>>& points) {
-        int arrowCount = 0;
+        int arrowCount = 1;
         int n = points.size();
         sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b) {
         return a[0] < b[0];
@@ -18,6 +18,6 @@ public:
                 arrowCount++;
             }
         }
-        return arrowCount+1;
+        return arrowCount;
     }
 };
