@@ -1,25 +1,29 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int low = 0;
-        int mid = 0;
         int n   = nums.size();
+        int low = 0;
         int high= n-1;
-        while(mid <= high)
+        int mid = 0;
+
+        while( mid <= high)
         {
             if( nums[mid] == 2)
             {
-                swap(nums[mid],nums[high]);
-                high--;
+                swap(nums[mid] , nums[high--]);
             }
             else if( nums[mid] == 0)
             {
-                swap(nums[low],nums[mid]);
-                low++;
-                mid++;
+                swap( nums[mid++] , nums[low++]);
             }else{
                 mid++;
             }
+            cout<<"low ="<<low <<" high = "<<high << " mid = "<<mid<<endl;
+            for(auto it:nums)
+            {
+                cout<<it<<" ";
+            }
+            cout<<endl;
         }
     }
 };
