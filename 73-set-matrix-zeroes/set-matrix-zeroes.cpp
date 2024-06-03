@@ -1,50 +1,39 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
+
         int n = matrix.size();
         int m = matrix[0].size();
-        for(int i = 0 ; i<n ; i++){
-            for(int j = 0 ; j<m ;j++)
-            {
-                if(matrix[i][j] ==0)
-                {
-                    matrix[i][j] =1e5;
-                }
-            }
-        }
-        
-        for(int i = 0 ; i<n ; i++){
-            for(int j = 0 ; j<m ;j++)
-            {
-                if(matrix[i][j] ==1e5)
-                {
-                    for(int k = 0 ; k < m; k++)
-                    {
-                        if( matrix[i][k] != 1e5)
-                        {
-                            matrix[i][k] = 0;
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < m; col++) {
+                if (matrix[row][col] == 0) {
+
+                    for (int k = 0; k < m; k++) {
+                        if (k != col && matrix[row][k] != 0) {
+                            matrix[row][k] = -1e9;
                         }
                     }
-                    for( int k = 0 ; k< n ; k++)
-                    {
-                        if( matrix[k][j] != 1e5)
-                        {
-                            matrix[k][j] = 0;
+                    for (int k = 0; k < n; k++) {
+                        if (k != row && matrix[k][col] != 0) {
+                            matrix[k][col] = -1e9;
                         }
                     }
                 }
             }
         }
-        
-        for(int i = 0 ; i<n ; i++){
-            for(int j = 0 ; j<m ;j++)
+
+        //make all zero 
+        for( int row = 0 ; row<n ; row++)
+        {
+            for(int  col = 0 ; col < m ; col ++)
             {
-                if(matrix[i][j] ==1e5)
+                if( matrix[row][col]  == -1e9 )
                 {
-                    matrix[i][j] =0;
+                    matrix[row][col]  = 0;
                 }
             }
         }
+
 
     }
 };
