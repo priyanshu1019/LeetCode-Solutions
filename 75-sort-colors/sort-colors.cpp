@@ -18,12 +18,6 @@ public:
             }else{
                 mid++;
             }
-            cout<<"low ="<<low <<" high = "<<high << " mid = "<<mid<<endl;
-            for(auto it:nums)
-            {
-                cout<<it<<" ";
-            }
-            cout<<endl;
         }
     }
 };
