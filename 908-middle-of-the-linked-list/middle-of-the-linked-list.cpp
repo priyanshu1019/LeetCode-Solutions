@@ -9,20 +9,16 @@
  * };
  */
 class Solution {
-private:
-    ListNode* helper(ListNode* slow,ListNode* fast){
-    if(fast->next==NULL){
-        return slow;
-    }
-    if(fast->next->next==NULL){
-        return slow->next;
-    }
-    return helper(slow->next,fast->next->next);
-}
 public:
     ListNode* middleNode(ListNode* head) {
-        ListNode* slow=head;
-        ListNode* fast=head;
-        return helper(slow,fast);
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while( fast->next!= NULL && fast->next->next!= NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return fast->next ? slow->next : slow;
     }
 };
