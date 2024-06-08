@@ -1,46 +1,58 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int time = 0;
-        vector<vector<int>> ans = grid; 
-        int n = grid.size();
-        int m = grid[0].size();
-        queue<pair<pair<int, int>,int>> q;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 2) {
-                    q.push({{i, j},0});
-                    ans[i][j]==2;
+        int totalOranges = 0;
+        int rottenOranges = 0;
+        int time  = 0 ;
+        int n  = grid.size();
+        int m  = grid[0].size();
+
+        vector<vector<int>> rotten = grid;
+        queue<pair<int,int>> q;
+
+        for(int row = 0 ; row<n ; row++)
+        {
+            for(int col = 0 ; col < m ; col++)
+            {
+                if( grid[row][col] == 2)
+                {
+                    totalOranges++;
+                    q.push({row , col});
+                }
+                if( grid[row][col] == 1)
+                {
+                    totalOranges++;
                 }
             }
         }
-        int dx[] = {-1, 0, 1, 0};
-        int dy[] = {0, 1, 0, -1};
-        while (!q.empty()) {
-                auto node = q.front();
-                int x = node.first.first;
-                int y = node.first.second;
-                time=max(time,node.second);
+        cout<<totalOranges<<" "<<q.size()<<endl;
+        int dx[] = {-1,0,1,0};
+        int dy[] = {0 , 1, 0,-1};
+        while(!q.empty())
+        {
+            int k = q.size();
+            rottenOranges += k;
+            while(k--)
+            {
+                auto curr = q.front();
+                int x = curr.first;
+                int y = curr.second;
                 q.pop();
-                for (int i = 0; i < 4; i++) {
-                    int newX = x + dx[i];
-                    int newY = y + dy[i];
-                    if ((newX >= 0 && newX < ans.size()) && 
-                    (newY >= 0 && newY < ans[0].size()) &&
-                     ans[newX][newY] != 2 && ans[newX][newY] == 1) {
-                        ans[newX][newY] = 2;
-                        q.push({{newX, newY},node.second+1});
+
+                for(int i = 0 ; i<4 ; i++)
+                {
+                    int newX = dx[i] + x;
+                    int newY = dy[i] + y;
+
+                    if(newX >= 0 && newX < n && newY >= 0 && newY < m && grid[newX][newY] == 1) {
+                        grid[newX][newY] = 2;
+                        q.push({newX, newY});
                     }
                 }
-            
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if(ans[i][j]!=2 && ans[i][j]!=0){
-                    return -1;
-                }
             }
+            if( !q.empty()) time++;
         }
-        return time;
+
+        return rottenOranges == totalOranges ? time:-1;
     }
 };
