@@ -1,34 +1,51 @@
 class Solution {
+
 private:
-    void bfs(int row, int col, vector<vector<int>>& image, vector<vector<int>>& ans, int iniColor, int color) {
-        ans[row][col] = color;
-        queue<pair<int, int>> q;
-        int n = ans.size();
-        int m = ans[0].size();
-        q.push({row, col});
-        int dx[] = {-1, 0, 1, 0};
-        int dy[] = {0, 1, 0, -1};
-        while (!q.empty()) {
-            auto node = q.front();
+    void bfs(int sr , int sc , int color , vector<vector<int>> &image , 
+    vector<vector<int>> &colored , int initColor)
+    {
+        int n = image.size();
+        int m = image[0].size();
+        queue<pair<int,int>> q ;
+        q.push({sr , sc});
+        colored[sr][sc] = color;
+        
+        int dx[] = {-1,0,1,0};
+        int dy[] = {0 , 1 , 0 , -1};
+        
+        while(!q.empty())
+        {
+            auto currNode = q.front();
             q.pop();
-            int x = node.first;
-            int y = node.second;
-            for (int i = 0; i < 4; i++) {
-                int newX = x + dx[i];
-                int newY = y + dy[i];
-                if ((newX >= 0 && newX < n) && (newY >= 0 && newY < m) && ans[newX][newY] == iniColor && ans[newX][newY] != color) {
-                    ans[newX][newY] = color;
-                    q.push({newX, newY});
+            
+            int x = currNode.first;
+            int y = currNode.second;
+            
+            for(int i = 0 ; i<4 ; i++)
+            {
+                int newX = dx[i] + x;
+                int newY = dy[i] + y;
+                
+                if( (newX>=0 and newX< n) and (newY>=0 and newY <m) 
+                and (image[newX][newY] == initColor) and
+                 (colored[newX][newY] !=color))
+                {
+                    colored[newX][newY] = color;
+                    q.push({newX , newY});
                 }
             }
         }
     }
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        int iniColor = image[sr][sc];
-        // Store the matrix because we want to fill colors so the matrix will change
-        vector<vector<int>> ans = image;
-        bfs(sr, sc, image, ans, iniColor, color);
-        return ans;
+        int initColor = image[sr][sc];
+        if(color == initColor)
+        {
+            return image;
+        }
+        vector<vector<int>> colored = image;
+        bfs(sr , sc , color , image , colored , initColor);
+        return colored;
+
     }
 };
