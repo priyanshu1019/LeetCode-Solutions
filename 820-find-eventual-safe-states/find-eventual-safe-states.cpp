@@ -1,36 +1,45 @@
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<int> reverseAdj[graph.size()];
-        vector<int> indegree(graph.size());
-        for(int i=0;i<graph.size();i++){
-            for(int j=0;j<graph[i].size();j++){
-                reverseAdj[graph[i][j]].push_back(i);
-                indegree[i]++;
+        int n = graph.size();
+        vector<int> safe;
+        vector<int> indegree(n , 0);
+        vector<int> reversedAdj[n];
+
+        for(int u = 0 ; u< n; u++)
+        {
+            for(int &v:graph[u])
+            {
+                reversedAdj[v].push_back(u);
+                indegree[u]++;
             }
         }
-        vector<int> safeNodes;
         queue<int> q;
-        for(int i=0;i<graph.size();i++){
-            if(indegree[i]==0){
+        for(int i =0; i<n ; i++)
+        {
+            if(indegree[i] ==0)
+            {
                 q.push(i);
             }
         }
-        //till now we have already pushed the terminal nodes in the queue
-        //we know that a terminal node is always safe node 
-        while(!q.empty()){
-            int node=q.front();
+
+        while(!q.empty())
+        {
+            int node = q.front();
             q.pop();
-            safeNodes.push_back(node);
-            for(auto it:reverseAdj[node]){
-                indegree[it]--;
-                if(indegree[it]==0){
-                    q.push(it);
+            safe.push_back(node);
+
+            for(int adjNode:reversedAdj[node])
+            {
+                indegree[adjNode]--;
+                if( indegree[adjNode]==0)
+                {
+                    q.push(adjNode);
                 }
             }
         }
-        sort(safeNodes.begin(),safeNodes.end());
-        return safeNodes;
 
+        sort(safe.begin(), safe.end());
+        return safe;
     }
 };
