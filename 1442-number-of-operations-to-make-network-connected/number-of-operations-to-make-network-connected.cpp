@@ -48,32 +48,35 @@ class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
         DisjointSet ds(n);
-        int count=0;
-        for(auto it:connections){
+        int countExtra = 0;
 
-            int u=it[0];
-            int v=it[1];
-            int parU=ds.findParent(u);
-            int parV=ds.findParent(v);
-            if(parU==parV){
-                count++;
+        for(auto &connection:connections)
+        {
+            int u = connection[0];
+            int v = connection[1];
+
+            int u_parent = ds.findParent(u);
+            int v_parent = ds.findParent(v);
+
+            if( u_parent == v_parent){
+                //already a connection meaning this is extra connection
+                countExtra++;
+                continue;
             }
-            else {
-                ds.unionBySize(u,v);
+            ds.unionByRank(u,v);
+        }
+
+        int countDisconnectedNodes = 0;
+        for(int i = 0 ; i< n ; i++)
+        {
+            if( ds.parent[i] == i )
+            {
+                countDisconnectedNodes++;
             }
         }
-        //count is extra wire
-        //now we need no of components not connect 
-        int single=0;
-        for(int i=0;i<n;i++){
-            if(ds.parent[i]==i){
-                single++;
-            }
-        }
-        int ans=single-1;
-        if(count>=ans){
-            return ans;
-        }
+
+        if( countDisconnectedNodes-1 <= countExtra) return countDisconnectedNodes-1;
+
         return -1;
     }
 };
