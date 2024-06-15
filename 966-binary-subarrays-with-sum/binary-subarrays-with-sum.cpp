@@ -1,19 +1,31 @@
 class Solution {
-public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        unordered_map<int, int> count;
-        count[0] = 1;
-        int curr_sum = 0;
-        int total_subarrays = 0;
+private:
+    int helper(vector<int>&nums , int goal)
+    {
+        if( goal < 0 ) return 0;
+        int sum = 0 ,  left = 0 , right = 0 , count = 0 ;
+        int  n = nums.size();
+        // cout<<right<<endl;
+        while(right < n )
+        {
+            sum += nums[right];
 
-        for (int num : nums) {
-            curr_sum += num;
-            if (count.find(curr_sum - goal) != count.end()) {
-                total_subarrays += count[curr_sum - goal];
+            while(sum > goal)
+            {
+                sum = sum -  nums[left];
+                left++;
             }
-            count[curr_sum]++;
+            count = count + (right - left +1 );
+            right++;
+
         }
 
-        return total_subarrays;
+        return count;
+    }
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        if( goal < 0 ) return 0;
+
+        return helper(nums , goal) - helper(nums , goal-1);
     }
 };
