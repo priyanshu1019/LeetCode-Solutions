@@ -19,14 +19,6 @@ public:
                 }
             }
         }
-
-        count = 0;
-        for(int i =0 ; i<n ; i++)
-        {
-            if(nums[i] == nums[candidate]){
-                count++;
-            }
-        }
-        return count > (n/2) ? nums[candidate] : -1;
+        return nums[candidate];
     }
 };
