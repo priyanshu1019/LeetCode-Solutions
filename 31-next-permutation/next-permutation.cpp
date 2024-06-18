@@ -1,9 +1,13 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        int ind = -1;
+       
         int n = nums.size();
-        for(int i = n -2 ; i  >= 0 ; i-- )
+        int ind = -1;
+
+        //find the break point 
+
+        for(int i = n-2 ; i>= 0 ; i--)
         {
             if( nums[i+1] > nums[i])
             {
@@ -11,20 +15,24 @@ public:
                 break;
             }
         }
-        if( ind == -1)
-        { 
-            reverse(nums.begin(), nums.end());
-            return;
+
+        if( ind == -1){
+            return reverse(nums.begin() , nums.end());
         }
-        for(int i = n-1; i> ind ; i--)
+
+        //find just greater and swap 
+        for(int i = n-1 ; i> ind ; i--)
         {
-            if( nums[i ] > nums[ind])
+            if( nums[i] > nums[ind])
             {
                 swap(nums[i] , nums[ind]);
                 break;
             }
         }
-        reverse(nums.begin()+ind+1,nums.end());
-        return;
+
+        //reverse elements after break point
+        return reverse(nums.begin() + ind + 1 , nums.end());
+        
+
     }
 };
