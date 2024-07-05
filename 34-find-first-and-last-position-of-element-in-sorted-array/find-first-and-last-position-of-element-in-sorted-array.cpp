@@ -1,56 +1,47 @@
 class Solution {
 private:
-int getFirst(vector<int>& arr , int n , int target)
-{
-    int low = 0;
-    int high= n - 1;
-    int ind = -1;
-    
-    while( low <= high )
-    {
-        int mid = low + (high - low)/2;
-        if( arr[mid] == target)
-        {
-            ind = mid ;
-            high= mid - 1;
-        }else if( arr[mid] > target )
-        {
-            high = mid - 1;
-        }else{
-            low = mid + 1;
+    int getFirst(vector<int> &nums , int target){
+        int ans = -1;
+        int n  = nums.size();
+        int left = 0;
+        int right = n-1;
+        while(left <= right){
+            int mid = left +(right-left)/2;
+            if( nums[mid] > target){
+                right = mid-1;
+            }else if(nums[mid] == target){
+                ans = mid;
+                right = mid-1;
+            }
+            else{
+                left = mid+1;
+            }
         }
+        return ans;
     }
-    return ind ;
-
-}
-int getLast(vector<int> &arr , int n , int target)
-{
-    int low = 0;
-    int high= n -1;
-    int ind = -1;
-
-    while(low <= high )
-    {
-        int mid = low + (high - low)/2;
-        if( arr[mid] == target)
-        {
-            ind = mid;
-            low = mid + 1;
-        }else if( arr[mid] > target)
-        {
-            high = mid - 1;
-        }else{
-            low = mid + 1;
+    int getLast(vector<int>&nums , int target){
+        int ans = -1;
+        int n  = nums.size();
+        int left = 0;
+        int right = n-1;
+        while(left <= right){
+            int mid = left +(right-left)/2;
+            if( nums[mid] > target){
+                right = mid-1;
+            }else if(nums[mid] == target){
+                ans = mid;
+                left = mid+1;
+            }
+            else{
+                left = mid+1;
+            }
         }
+        return ans;
     }
-    return ind;
-}
 public:
-    vector<int> searchRange(vector<int>& arr, int k) {
-        int n     = arr.size();
-        int first = getFirst(arr, n, k);
-        int last  = getLast(arr, n, k);
-
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int first = getFirst(nums , target);
+        int last  = getLast(nums , target);
         return {first , last};
     }
 };
