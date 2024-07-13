@@ -1,38 +1,39 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int n = s.size();
-        unordered_map<char, int> mp;
-        for (char ch : t) {
+        int requiredCount = t.size();
+        unordered_map<char , int> mp;
+        for(char ch:t){
             mp[ch]++;
         }
-        int requiredCount = t.size();
-        int left = 0, right = 0;
-        int start_i = 0;
-        int minWindowSize = INT_MAX;
 
-        while (right < n) {
+        int start_i =0 ;
+        int left =0 , right = 0;
+
+        int n = s.size();
+        int miniWindow = INT_MAX;
+        while(right < n ){
             char ch = s[right];
-            if (mp[ch] > 0) requiredCount--;
+            if( mp[ch] > 0 ) {
+                requiredCount--;
+            }
             mp[ch]--;
 
-            while (requiredCount == 0) {
-                int currWindowSize = right - left + 1;
-                if (currWindowSize < minWindowSize) {
-                    minWindowSize = currWindowSize;
-                    start_i = left; // will be used to get the substring
+            while(requiredCount == 0){
+                int currentWindow = right - left +1;
+                if( currentWindow < miniWindow){
+                    miniWindow = currentWindow;
+                    start_i = left;
                 }
 
                 mp[s[left]]++;
-                if (mp[s[left]] > 0) {
+                if( mp[s[left]] > 0 ){
                     requiredCount++;
                 }
                 left++;
             }
-
-            right++;
+            right ++;
         }
-
-        return minWindowSize == INT_MAX ? "" : s.substr(start_i, minWindowSize);
+        return miniWindow == INT_MAX ? "":s.substr(start_i , miniWindow);
     }
 };
