@@ -14,9 +14,7 @@ public:
                     curr++;
                 }
             }
-            if( curr != 0 and i != 0){
-                total += (curr * prev);
-            }
+            total += (curr*prev);
             if( curr != 0){
                 prev = curr;
             }
