@@ -6,9 +6,10 @@ public:
             return s;
         }
         string result = s;
-        for(int l = 1; l <= s.size() - 1 ; l++ ){
-            string temp = s.substr(l) + s.substr(0 , l);
-            result = min(temp , result);
+        int n = s.size();
+        for(int i = 1; i < n ; i++ ){
+            string temp = s.substr(i)+s.substr(0 , i);
+            result = min(result , temp);
         }
         return result;
     }
