@@ -1,21 +1,25 @@
 class Solution {
-public: 
-    long long helper(vector<int>&nums , int ind , bool even , vector<vector<long long>>&dp){
-        if( ind == nums.size()) return 0;
-        if( dp[ind][even]!= -1) return dp[ind][even];
-        long long notPick = helper(nums , ind + 1, even , dp );
-        long long  pick    = INT_MIN;
-
-        if( even ){
-            pick    = nums[ind] + helper(nums , ind+1 , false, dp);
-        }else{
-            pick    = -nums[ind]+ helper(nums , ind+1 , true , dp);
-        }
-
-        return dp[ind][even]=max(pick , notPick);
-    }
+public:
     long long maxAlternatingSum(vector<int>& nums) {
-        vector<vector<long long >> dp(nums.size()+1 , vector<long long >(2 , -1));
-        return helper(nums , 0 , true , dp);
+        int n= nums.size();
+        vector<vector<long long >>dp(n +1 , vector<long long >(2 , 0));
+
+        dp[n][0] = 0;
+        dp[n][1] = 0;
+
+        for(int index = n-1 ; index >=0 ; index--){
+            for(int j = 0 ; j <=1 ; j++){
+                long long ignore = dp[index+1][j];
+                long long pick   = INT_MIN;
+
+                if( j ){
+                    pick   = nums[index]+dp[index+1][!j];
+                }else if( j == 0){
+                    pick   = -nums[index]+ dp[index+1][!j];
+                }
+                dp[index][j] = max(ignore , pick);
+            }
+        }
+        return dp[0][1];
     }
 };
