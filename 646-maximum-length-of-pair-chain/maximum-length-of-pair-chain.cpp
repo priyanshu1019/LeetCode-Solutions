@@ -1,25 +1,21 @@
 class Solution {
 private:
-    int helper(int ind,int prevInd,vector<vector<int>>& nums,vector<vector<int>> &dp){
-        if(ind>=nums.size()){
+    int helper(vector<vector<int>> &pairs , int ind , int prev , vector<vector<int>> &dp){
+        if( ind >= pairs.size()){
             return 0;
         }
-        if(dp[ind][prevInd+1]!=-1){
-            return dp[ind][prevInd+1];
+        if( dp[ind][prev+1] != -1)return dp[ind][prev+1];
+        int len = helper(pairs , ind+1 , prev , dp);
+        if( prev == -1|| pairs[ind][0] > pairs[prev][1]){
+            len = max(len , 1+helper(pairs , ind+1 , ind , dp));
         }
-        //not pick
-        int len=0+helper(ind+1,prevInd,nums,dp);
-        //pick
-        if(prevInd==-1||nums[ind][0]>nums[prevInd][1]){
-            len=max(len,1+helper(ind+1,ind,nums,dp));
-        }
-        return dp[ind][prevInd+1]=len;
+        return dp[ind][prev+1]=len;
     }
 public:
     int findLongestChain(vector<vector<int>>& pairs) {
-        int n=pairs.size();
-        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
-        sort(begin(pairs),end(pairs));
-        return helper(0,-1,pairs,dp);
+        sort(pairs.begin() , pairs.end());
+        int n= pairs.size();
+        vector<vector<int>> dp( n , vector<int>(n+1 , -1));
+        return helper(pairs , 0 , -1 , dp);
     }
 };
