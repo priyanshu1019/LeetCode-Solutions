@@ -1,33 +1,30 @@
 class Solution {
 public:
-    int M,N,K;
-    int MOD=1e9+7;
+    int N , M , K;
+    int MOD = 1e9+7;
     int dp[51][51][101];
-    int solve(int idx,int searchCost,int maxSoFar){
-        if(idx==N){
-            if(searchCost==K){
-                return 1;
-            }
-            return 0;
+    int helper(int ind , int searchCost , int maxSoFar){
+
+        if( ind == N ){
+            return searchCost == K ? 1:0;
         }
-        if(dp[idx][searchCost][maxSoFar]!=-1){
-            return dp[idx][searchCost][maxSoFar];
-        }
-        int result=0;
-        for(int i=1;i<=M;i++){
-            if(maxSoFar<i){
-                result=(result+solve(idx+1,searchCost+1,i)) % MOD;
+        if( dp[ind][searchCost][maxSoFar] != -1)return dp[ind][searchCost][maxSoFar];
+        int result = 0;
+        for(int i = 1 ; i <= M ; i++){
+            if( i > maxSoFar ){
+                result = (result + helper(ind+1 , searchCost+1 , i))% MOD;
             }else{
-                result=(result+solve(idx+1,searchCost,maxSoFar)) % MOD;
+                result = (result + helper(ind+1 , searchCost , maxSoFar)) % MOD;
             }
         }
-        return dp[idx][searchCost][maxSoFar]=(result) % MOD;
+        return dp[ind][searchCost][maxSoFar]=result % MOD;
     }
     int numOfArrays(int n, int m, int k) {
-        M=m;
-        N=n;
-        K=k;
-        memset(dp,-1,sizeof(dp));
-        return solve(0,0,0);
+        N = n;
+        M = m;
+        K = k;
+        //ind , len , maxSoFar;
+        memset(dp ,-1 , sizeof(dp));
+        return helper(0 , 0 , 0);
     }
 };
