@@ -1,22 +1,24 @@
 class Solution {
 public:
-    int t[1001][1001];
-    int helper(string &text1 , string &text2 , int i , int j){
-        if( i >= text1.size() || j >= text2.size()) return 0;
-        int take = 0 , notTake = 0;
-        if( t[i][j]!= -1)return t[i][j];
-        if( text1[i] == text2[j]){
-            take = 1 + helper(text1 , text2 , i+1 , j+1);
-        }else{
-
-        notTake = max(helper(text1 , text2 , i+1 , j) , helper(text1 , text2 , i , j+1));
-        }
-
-        return t[i][j] = max(take , notTake);
-
-    }
     int longestCommonSubsequence(string text1, string text2) {
-        memset(t , -1 , sizeof(t));
-        return helper(text1 , text2 , 0 , 0 );
+        int n = text1.size();
+        int m = text2.size();
+        vector<vector<int>> dp(n +1, vector<int>(m+1,0));
+        // for(int row = 0 ; row<n ; row++){
+        //     dp[row][0] = 0;
+        // }
+        // for(int col =0 ; col < m ; col++){
+        //     dp[0][col] = 0;
+        // }
+        for(int i =1 ; i < n +1; i++){
+            for(int j = 1 ; j < m+1 ; j++){
+                if( text1[i-1] == text2[j-1]){
+                    dp[i][j] = 1+ dp[i-1][j-1];
+                }else{
+                    dp[i][j] = max(dp[i-1][j] , dp[i][j-1]);
+                }
+            }
+        }
+        return dp[n][m];
     }
 };
