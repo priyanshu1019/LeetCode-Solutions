@@ -7,8 +7,10 @@ public:
         if( t[i][j]!= -1)return t[i][j];
         if( text1[i] == text2[j]){
             take = 1 + helper(text1 , text2 , i+1 , j+1);
-        }
+        }else{
+
         notTake = max(helper(text1 , text2 , i+1 , j) , helper(text1 , text2 , i , j+1));
+        }
 
         return t[i][j] = max(take , notTake);
 
