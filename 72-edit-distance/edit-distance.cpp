@@ -1,29 +1,25 @@
 class Solution {
 public:
-    int n , m;
-    int t[501][501];
-    int helper(string &word1 , string &word2 , int i , int j){
-        if( i == n){
-            return m-j;
-        }
-        else if( j == m){
-            return n-i;
-        }
-        if( t[i][j] != -1) return t[i][j];
-        if( word1[i] == word2[j]){
-            return t[i][j] = helper(word1 , word2 , i+1 , j+1);
-        }
-        int replace =1+ helper(word1 , word2 , i+1 , j+1);
-        int dele  =1+ helper(word1 , word2 , i+1 , j);
-        int insert  =1+ helper(word1 , word2 , i, j+1);
-
-        return t[i][j] = min({replace , dele , insert});
-    }
     int minDistance(string word1, string word2) {
-        n = word1.size();
-        m = word2.size();
-        memset(t , -1 , sizeof(t));
-        return helper(word1 , word2 , 0 , 0);
+        int n = word1.size();
+        int m = word2.size();
+        vector<vector<int>> t(n+1 , vector<int>(m+1));
 
+        for(int i =0 ; i <= n ; i++){
+            for(int j = 0 ; j <= m ; j++){
+                if( i ==0 || j == 0){
+                    t[i][j] = i+j;
+                }else if( word1[i-1] == word2[j-1]){
+                    t[i][j] = t[i-1][j-1];
+                }else{
+                    t[i][j] = 1+ min({
+                        t[i-1][j],
+                        t[i-1][j-1],
+                        t[i][j-1]
+                    });
+                }
+            }
+        }
+        return t[n][m];
     }
 };
