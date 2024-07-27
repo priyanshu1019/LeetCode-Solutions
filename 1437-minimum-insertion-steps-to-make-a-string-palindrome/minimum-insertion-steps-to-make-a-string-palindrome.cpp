@@ -1,37 +1,20 @@
 class Solution {
-private:
-int lcs(string s, string t)
-{
-  //Write your code here
-  int n=s.size();
-  int m=t.size();
-  vector<vector<int>> dp(n+1,vector<int>(m+1,-1));
-  for(int i=0;i<=n;i++){
-    dp[i][0]=0;
-  }
-  for(int j=0;j<=m;j++){
-    dp[0][j]=0;
-  }
-  for(int ind1=1;ind1<=n;ind1++){
-    for(int ind2=1;ind2<=m;ind2++){
-      if(s[ind1-1]==t[ind2-1]){
-        dp[ind1][ind2]=1+dp[ind1-1][ind2-1];
-      } else {
-        dp[ind1][ind2] = max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
-      }
-    }
-  }
-
-  return dp[n][m];
-}
-int longestPalindromeSubseq(string str1) {
- string str2=str1;
- reverse(str1.begin(),str1.end());
-return lcs(str1, str2);
-}
 public:
+    int t[501][501];
+    int helper(string &s , int i , int j ){
+        if( i >= j){
+            return 0;
+        }
+        if( t[i][j] != -1)return t[i][j];
+        if( s[i] == s[j]){
+            return t[i][j] = helper(s , i+1 , j-1);
+        }else
+            return t[i][j] = 1+min(helper(s , i+1 , j),helper(s , i , j-1));
+        
+    }
     int minInsertions(string s) {
-        int n=s.size();
-        return n-longestPalindromeSubseq(s);
+        int n = s.size();
+        memset(t , -1 , sizeof(t));
+        return helper(s , 0 , n-1);
     }
 };
