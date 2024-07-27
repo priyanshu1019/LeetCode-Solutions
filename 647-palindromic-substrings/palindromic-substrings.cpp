@@ -1,25 +1,21 @@
 class Solution {
-private:
-    int t[1001][1001];
-    int isPalindrome(int i , int j , string & s){
-        if( i >= j) return true;
-        if(t[i][j]!= -1)return t[i][j];
-        if( s[i] == s[j]) return t[i][j] = isPalindrome(i+1 , j-1 , s);
-
-        return t[i][j] = false;
-    }
 public:
     int countSubstrings(string s) {
-        int n = s.length();
-        int ans= 0;
-        memset(t , -1 , sizeof(t));
-        for(int i =0 ; i < n ; i++){
-            for(int j =i ; j < n ; j++){
-                if( isPalindrome(i , j , s)){
-                    ans+=1;
+        int n = s.size();
+        vector<vector<bool>>t(n+1 , vector<bool>(n+1 , false));
+
+        int count = 0;
+        for(int l = 1; l <= n ; l++){
+            for(int i = 0 ; i+l-1<n ; i++){
+                int j = i+l-1;
+                if( i == j)t[i][j] = true;
+                else if( i+1 == j)t[i][j] = (s[i] == s[j]);
+                else {
+                    t[i][j] = ( s[i]== s[j] ) and t[i+1][j-1];
                 }
+                if( t[i][j] == true) count++;
             }
         }
-        return ans;
+        return count;
     }
 };
