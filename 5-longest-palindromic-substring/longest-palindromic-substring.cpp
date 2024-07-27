@@ -1,40 +1,24 @@
 class Solution {
-private:
-    bool isPalindrome( string &s , int i , int j , vector<vector<int>> &dp )
-    {
-        
-        if( i >= j ) return true;
-        if( dp[i][j] != -1 ) return dp[i][j];
-        if( s[i] == s[j]){
-            return dp[i][j] = isPalindrome( s , i+1 , j-1 , dp );
-        }
-        return dp[i][j] = false;
-        
-    }
 public:
     string longestPalindrome(string s) {
-        
-        int n         = s.size();
-        int maxLen    = INT_MIN;
-        int startPos = 0;
-        vector<vector<int>> dp(1001 , vector<int>( 1001 , -1));
-        for( int i = 0 ; i < n ; i++ )
-        {
-            
-            for(int j = i ; j < n ; j++ )
-            {
-                
-                if( isPalindrome( s , i , j , dp ) and ( j- i + 1) >maxLen ){
-                    
-                    maxLen   = j - i + 1;
-                    startPos = i ;
+        int n = s.size();
+        int start = 0;
+        int len = 0;
+        vector<vector<bool>> t(n+1 , vector<bool>(n+1 , false));
+        for(int l = 1; l <= n ; l++){
+            for(int i =0 ; i+l-1 < n ; i++){
+                int j = i+l-1;
+                if( i == j )t[i][j] = true;
+                else if( i +1 == j)t[i][j] = (s[i] == s[j]);
+                else{
+                    t[i][j] =  (s[i] == s[j]) and (t[i+1][j-1]);
                 }
-                
+                if( t[i][j] == true and l > len){
+                    start = i;
+                    len = l;
+                }
             }
-            
         }
-        
-        return s.substr( startPos , maxLen );
-        
+        return s.substr(start , len);
     }
 };
