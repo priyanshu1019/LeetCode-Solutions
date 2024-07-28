@@ -1,36 +1,29 @@
 class Solution {
 public:
-    void solve(string &s, int ind , vector<vector<string>>&result , vector<string>&currPartition  , vector<vector<bool>>&t){
-        if( ind == s.size()){
-            result.push_back(currPartition);
+    vector<vector<string>> result;
+    bool isPalindrome(string&s , int i , int j ){
+        while(i < j){
+            if( s[i] != s[j])return false;
+            i++;j--;
+        }
+        return true;
+    }
+    void helper(string &s , vector<string>&curr , int ind){
+        if( ind == s.size()) {
+            result.push_back(curr);
             return;
         }
-        for(int j = ind ; j < s.size() ; j++){
-            if( t[ind][j] == true){
-                currPartition.push_back(s.substr(ind , j-ind+1));
-                solve(s , j+1 , result , currPartition, t);
-                currPartition.pop_back();
+        for(int i = ind; i < s.size(); i++){
+            if(isPalindrome(s , ind , i)){
+                curr.push_back(s.substr(ind , i-ind+1));
+                helper(s , curr , i+1);
+                curr.pop_back();
             }
         }
-
     }
     vector<vector<string>> partition(string s) {
-        int n = s.size();
-        vector<vector<bool>> t(n+1 , vector<bool>(n+1 , false));
-        for(int i = 0 ; i < n ; i++){
-            t[i][i] = true;
-        }
-        for(int l = 2 ; l <= n ; l++){
-            for(int i = 0 ; i+l-1<n ; i++){
-                int j = i+l - 1;
-                if( s[i] == s[j]){
-                    t[i][j] = (l == 2) ? true:t[i+1][j-1];
-                }
-            }
-        }
-        vector<vector<string>> result;
-        vector<string> currPartition;
-        solve(s , 0 , result , currPartition , t);
+        vector<string> curr;
+        helper(s , curr , 0 );
         return result;
     }
 };
