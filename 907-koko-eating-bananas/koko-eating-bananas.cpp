@@ -5,9 +5,11 @@ private:
         int total = 0;
         for(int i = 0 ; i < piles.size() ; i++)
         {
-            total += ceil((double)piles[i]/mid);
+            total += ceil((double)piles[i]/mid); //time for this pile 
+            //check if the total time has already crossed the limited time or not 
             if( total > h)
             {
+                //-3 indicates the above case
                 return -3;
             }
         }
@@ -31,8 +33,10 @@ public:
             int totalTime = getTotalTime(piles , h , mid);
             if( totalTime == -3)
             {
+                //we have to increase the number of bananas to eat per hour
                 low = mid + 1;
             }else{
+                //it can be the answer but we check for the better answer;
                 high= mid -1;
             }
         }
