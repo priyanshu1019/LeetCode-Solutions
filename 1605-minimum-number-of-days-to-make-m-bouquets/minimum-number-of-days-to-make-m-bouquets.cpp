@@ -1,53 +1,41 @@
 class Solution {
-private:
-    long long helper(vector<int>& bloomDay , int mid , int m , int k )
-    {
-        long long count = 0;
-        for(int i = 0 ; i< bloomDay.size() ; i++ )
-        {
-            if( bloomDay[i] <= mid)
-            {
-                count++;
-                
-            }else{
-                count = 0;
-            }
-            if( count == k)
-                {
-                    m--;
-                    count = 0;
-                }
-        if( m == 0) return 1;
-        }
-        return -3;
-    }
 public:
-    int minDays(vector<int>& bloomDay, int m, int k) {
-        int n = bloomDay.size();
-        int mini = INT_MAX;
-        int maxi = INT_MIN;
-        for(auto it:bloomDay)
-        {
-            mini = min(mini , it);
-            maxi = max(maxi , it);
-        }
-        int low = mini ;
-        int high= maxi ;
-
-        while( low <= high)
-        {
-            int mid = low + (high - low)/2;
-
-            int days = helper(bloomDay , mid , m , k );
-
-            if( days == -3 )
-            {
-                low = mid + 1;
+    int check(vector<int>& bloomDay , int m , int k , int days){
+        int flow = 0;
+        int bouquets = 0;
+        for(int i =0 ; i < bloomDay.size(); i++){
+            if( bloomDay[i] <= days){
+                flow++;
             }else{
-                high= mid - 1;
+                flow = 0;
+            }
+            if( flow == k){
+                flow = 0;
+                bouquets++;
             }
         }
+        return bouquets >= m ?  -1:-3;
 
-        return low == maxi + 1 ? -1 : low;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        if( m > bloomDay.size()/k)return -1;
+        int low = 0;
+        int high= 0;
+
+        for(int x:bloomDay){
+            low = min(low, x);
+            high= max(high , x);
+        }
+
+        while( low <= high){
+            int mid = low+(high - low)/2;
+            int val = check(bloomDay , m , k , mid);
+            if( val == -3){
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        return low;
     }
 };
