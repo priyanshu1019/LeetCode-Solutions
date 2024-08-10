@@ -1,38 +1,36 @@
 class Solution {
-private:
-    int check(vector<int> &weights , int limit , int d)
-{
-    long long sum = 0;
-    int day = 1;
-    for(int i = 0 ; i< weights.size() ;i++)
-    {
-        if( sum + weights[i] > limit)
-        {
-            day++;
-            sum = weights[i];
-        }else{
-            sum += weights[i];
-        }
-    }
-    return day;
-}
 public:
-    int shipWithinDays(vector<int>& weights, int d) {
-        int n    = weights.size();
-        int low = *max_element(weights.begin(), weights.end());
-        int high = accumulate(weights.begin(), weights.end(), 0);
-
-        while( low <= high )
-        {
-            int mid = low + (high - low) / 2;
-            long long days = check( weights , mid , d );
-            if(days <= d)
-            {
-                high = mid -1;
+    int check(vector<int>&weights , int cap , int days){
+        int sum = 0;
+        int d   = 1;
+        
+        for(int i = 0 ;i < weights.size() ; i++){
+            if( sum + weights[i] <= cap){
+                sum += weights[i];
             }else{
-                low = mid + 1;
+                sum = weights[i];
+                d++;
             }
+            if( d  > days)return -3;
+        }
+        return -1;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int low = 1;
+        int high = 0;
+        for(int &weight:weights){
+            low = max(weight , low);
+            high+= weight;
+        }
 
+        while(low <= high){
+            int capacity = low + (high - low)/2;
+            int val      = check(weights , capacity , days);
+            if( val == -3){
+                low = capacity +1;
+            }else{
+                high= capacity-1;
+            }
         }
         return low;
     }
