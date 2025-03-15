@@ -1,21 +1,18 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        int dipPoint = INT_MAX;
-        int profit   = 0;
-
-        for(int i =0 ; i < n ; i++ ){
-            if( i == 0 || prices[i] < prices[i-1]){
-                dipPoint = prices[i];
-                continue;
+        int currentMinimum  = prices[0];
+        int n               = prices.size();
+        int totalProfit     = 0;
+        for(int day = 1 ; day < n ; day++ ){
+            if( prices[day] > currentMinimum ){
+                totalProfit += ( prices[day] - currentMinimum);
+                currentMinimum = prices[day];
             }else{
-                profit  = profit + (prices[i] - dipPoint);
-                dipPoint = prices[i];
+                currentMinimum = prices[day];
             }
         }
 
-        return profit;
-
+        return totalProfit;
     }
 };
